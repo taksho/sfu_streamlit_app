@@ -27,4 +27,4 @@ st.header("Fruityvice Fruit Advice!")
 
 import requests as rq
 fruityvice_response = rq.get("https://fruityvice.com/api/fruit/watermelon")
-st.text(fruityvice_response)
+st.text(fruityvice_response.json())
