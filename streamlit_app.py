@@ -29,16 +29,17 @@ st.dataframe(fruits_show)
 # New Section to display fruityvice api response
 st.header("Fruityvice Fruit Advice!")
 
-fruit_choice = st.text_input('What fruit would you like information about?','Kiwi')
-st.write('The user entered ', fruit_choice)
+try:
+  fruit_choice = st.text_input('What fruit would you like information about?')
+  if not fruit_choice:
+    st.error("Please select a fruit to get information.")
+  else:
+    fruityvice_response = rq.get("https://fruityvice.com/api/fruit/" + fruit_choice)
+    fruityvice_normalized = pandas.json_normalize(fruityvice_response.json())
+    st.dataframe(fruityvice_normalized)
 
-# import requests as rq
-fruityvice_response = rq.get("https://fruityvice.com/api/fruit/" + fruit_choice)
-
-# take the json version of the response and normalize it
-fruityvice_normalized = pandas.json_normalize(fruityvice_response.json())
-# output it the screen as a table
-st.dataframe(fruityvice_normalized)
+except URLError as e:
+  st.error()
 
 st.stop()
 
